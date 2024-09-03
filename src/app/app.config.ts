@@ -1,8 +1,17 @@
 import { ApplicationConfig } from '@angular/core';
-import { provideRouter } from '@angular/router';
-
-import { routes } from './app.routes';
+import { provideStore } from '@ngrx/store';
+import { provideHttpClient } from '@angular/common/http';
+import { cartReducer, productsReducer } from './state/cart.reducer';
+import { provideEffects } from '@ngrx/effects';
+import { CartEffects } from './state/cart.effects';
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideRouter(routes)]
+  providers: [
+    provideStore({
+      products: productsReducer, 
+      cart: cartReducer 
+    }),
+    provideHttpClient(),
+    provideEffects([CartEffects])
+],
 };
